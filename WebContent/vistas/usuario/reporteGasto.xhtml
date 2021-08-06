@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="/templates/template.xhtml"
+	xmlns:pe="http://primefaces.org/ui/extensions"> 
+
+	<ui:define name="tituloPag">Reporte Gastos</ui:define>
+	<ui:define name="metadata">
+	</ui:define>
+
+	<ui:define name="content">
+		<section class="content-header">
+		<h1>
+			<small>Administración -Reporte Gastos</small>
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="#"><i class="fa fa-home"></i>Reporte de Gastos</a></li>
+		</ol>
+		</section>
+		<p:messages autoUpdate="true" id="msgs" showSummary="true" showDetail="true" closable="true" />
+		<section class="content"> 
+		
+		<h:form id="principal">		
+
+				<p:dataTable id="tbl" widgetVar="tbl" value="#{reporteGasto.lista}" var="p" tableStyle="table-layout: auto;" emptyMessage="Sin registros"
+					paginator="true" rows="10" paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					currentPageReportTemplate="(Mostrando: {startRecord} - {endRecord} de: {totalRecords}, Página: {currentPage}/{totalPages})"
+					rowsPerPageTemplate="5,10,20,50,100,500" rowIndexVar="indice" selection="#{reporteGasto.slcregistro}" selectionMode="single" rowKey="#{p.id}"
+					filteredValue="#{reporteGasto.listaFilter}">
+
+					<f:facet name="header">Gastos Registrados</f:facet>
+
+					<p:column headerText="Tipo Gasto" style="text-align:center;" filterBy="#{p.catTipoGasto.descripcion}" filterMatchMode="contains">
+						<h:outputText value="#{p.catTipoGasto.descripcion}" />
+					</p:column>
+					
+					<p:column headerText="Fecha" style="text-align:center;" sortBy="#{p.fechaPago}" filterMatchMode="contains">
+						<h:outputText value="#{p.fechaPago}">
+							<f:convertDateTime pattern="dd/MM/yyyy" />
+						</h:outputText>
+					</p:column>
+					
+					<p:column headerText="Monto" style="text-align:center;" filterBy="#{p.monto}" filterMatchMode="contains">
+						<h:outputText value="#{p.monto}" />
+					</p:column>
+					
+					<p:column headerText="Observación" style="text-align:center;" filterBy="#{p.observaciones}" filterMatchMode="contains">
+						<h:outputText value="#{p.observaciones}" />
+					</p:column>
+					
+					<p:summaryRow>
+			            <p:column colspan="3" style="text-align:right">
+			                <h:outputText value="Total:" />
+			            </p:column>
+			            <p:column>
+			                <h:outputText value="#{reporteGasto.total}">
+			                    <f:convertNumber type="currency" currencySymbol="$" />
+			                </h:outputText>
+			            </p:column>
+			        </p:summaryRow>
+
+				</p:dataTable>
+				
+				<p:toolbar>
+					<f:facet name="right">
+
+						<p:commandButton value="Cancelar" icon="ui-icon-close" update=":msg, :formReporte" action="#{reporteGasto.limpiar}" ajax="false"
+							global="false" process="@this" style="float:right !important;margin:2px 2px 3px 2px;" />
+
+						<p:commandButton value="Exportar" icon="ui-icon-document" onclick="form.target='_blank'" ajax="false" update=":msg"
+							actionListener="#{reporteGasto.exportarBandeja}" global="false" process="@form" style="float:right !important;margin:2px 2px 3px 2px;"
+							rendered="false" />
+
+						<p:commandButton value="Imprimir" icon="ui-icon-print" onclick="form.target='_blank'" ajax="false"
+							action="#{reporteGasto.imprimirBandeja}" update=":msg" global="false" process="@this"
+							style="float:right !important;margin:2px 2px 3px 2px;" />
+
+					</f:facet>
+				</p:toolbar>
+
+
+		</h:form> </section>
+
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="explode" appendTo="@(body)">
+			<h:form>
+				<p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</h:form>
+		</p:confirmDialog>
+	</ui:define>
+</ui:composition>
+

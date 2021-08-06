@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 5/08/2021 06:13:16 PM by Hibernate Tools 4.0.1.Final -->
+<hibernate-mapping>
+    <class name="com.universidad.modelo.negocio.Empleado" table="empleado" schema="public" lazy="false">
+        <id name="id" type="int">
+            <column name="id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="catDepto" class="com.universidad.modelo.negocio.CatDepto" fetch="select">
+            <column name="id_depto" />
+        </many-to-one>
+        <many-to-one name="catEmpresa" class="com.universidad.modelo.negocio.CatEmpresa" fetch="select">
+            <column name="id_empresa" />
+        </many-to-one>
+        <property name="nombre" type="string">
+            <column name="nombre" length="150" />
+        </property>
+        <property name="ape1" type="string">
+            <column name="ape1" length="150" />
+        </property>
+        <property name="ape2" type="string">
+            <column name="ape2" length="150" />
+        </property>
+        <property name="fecNacimiento" type="date">
+            <column name="fec_nacimiento" length="13" />
+        </property>
+        <property name="correo" type="string">
+            <column name="correo" length="200" />
+        </property>
+        <property name="genero" type="java.lang.Integer">
+            <column name="genero" />
+        </property>
+        <property name="telefono" type="string">
+            <column name="telefono" length="20" />
+        </property>
+        <property name="celular" type="string">
+            <column name="celular" length="20" />
+        </property>
+        <property name="fecIngreso" type="date">
+            <column name="fec_ingreso" length="13" />
+        </property>
+    </class>
+</hibernate-mapping>

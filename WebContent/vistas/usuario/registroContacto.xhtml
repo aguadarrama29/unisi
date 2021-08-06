@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="/templates/template.xhtml"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<ui:define name="tituloPag">Catálogo de Contactos</ui:define>
+	<ui:define name="metadata">
+	</ui:define>
+
+	<ui:define name="content">
+		<section class="content-header">
+		<h1>
+			<small>Administración - Contactos</small>
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="#"><i class="fa fa-home"></i>Catálogo de
+					Contactos</a></li>
+		</ol>
+		</section>
+		<p:messages autoUpdate="true" id="msg" showSummary="true"
+			showDetail="true" closable="true" />
+		<section class="content"> <h:form id="principal">
+
+			<h3 style="margin-top: 0">Contactos</h3>
+			<p:tabView>
+				<p:tab title="Administrar" id="tab1">
+
+					<p:panelGrid columns="1" style="width:100%;">
+						<f:facet name="header">
+							<p:commandButton value="Agregar" icon="ui-icon-person"
+								oncomplete="PF('dlgAddC').show()" global="false" process="@this"
+								title="Agregar Destinatarios" style="float:right;" />
+						</f:facet>
+					</p:panelGrid>
+					<p:contextMenu for="tbl">
+						<p:menuitem value="Editar" update="principal"
+							icon="ui-icon-pencil" actionListener="#{contactoMB.editar}"
+							process="tbl,@this" />
+						<p:menuitem value="Eliminar" update="principal"
+							icon="ui-icon-close" actionListener="#{contactoMB.eliminar}"
+							process="tbl,@this">
+							<p:confirm header="Confirmación" message="Eliminar Contacto?"
+								icon="ui-icon-alert" />
+						</p:menuitem>
+					</p:contextMenu>
+
+					<p:dataTable id="tbl" widgetVar="tbl" value="#{contactoMB.lista}"
+						var="p" tableStyle="table-layout: auto;"
+						emptyMessage="Sin registros" paginator="true" rows="10"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						currentPageReportTemplate="(Mostrando: {startRecord} - {endRecord} de: {totalRecords}, Página: {currentPage}/{totalPages})"
+						rowsPerPageTemplate="5,10,20,50,100,500" rowIndexVar="indice"
+						selection="#{contactoMB.slcContacto}" selectionMode="single"
+						rowKey="#{p.id}" filteredValue="#{contactoMB.listaFilter}">
+
+						<f:facet name="header">Gastos Registrados</f:facet>
+
+						<p:column headerText="Nombre" style="text-align:center;"
+							filterBy="#{p.nombre} #{p.apellido1} #{p.apellido2}"
+							filterMatchMode="contains">
+							<h:outputText value="#{p.nombre} #{p.apellido1} #{p.apellido2}" />
+						</p:column>
+
+						<p:column headerText="Fecha Nacimiento" style="text-align:center;"
+							sortBy="#{p.fechaNacimiento}" filterMatchMode="contains">
+							<h:outputText value="#{p.fechaNacimiento}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="Cargo" style="text-align:center;"
+							filterBy="#{p.catCargo.descripcion}" filterMatchMode="contains">
+							<h:outputText value="#{p.catCargo.descripcion}" />
+						</p:column>
+
+						<p:column headerText="Seccional" style="text-align:center;"
+							filterBy="#{p.catSeccional.descripcion}"
+							filterMatchMode="contains">
+							<h:outputText value="#{p.catSeccional.descripcion}" />
+						</p:column>
+
+						<p:column headerText="Agrupación" style="text-align:center;"
+							filterBy="#{p.catAgrupacion.descripcion}"
+							filterMatchMode="contains">
+							<h:outputText value="#{p.catAgrupacion.descripcion}" />
+						</p:column>
+
+						<p:column headerText="Telefono" style="text-align:center;"
+							filterBy="#{p.telefono}" filterMatchMode="contains">
+							<h:outputText value="#{p.telefono}" />
+						</p:column>
+
+						<p:column headerText="Correo" style="text-align:center;"
+							filterBy="#{p.correoElectronico}" filterMatchMode="contains">
+							<h:outputText value="#{p.correoElectronico}" />
+						</p:column>
+
+						<p:column headerText="Domicilio" style="text-align:center;"
+							filterBy="#{p.domicilio}" filterMatchMode="contains">
+							<h:outputText value="#{p.domicilio}" />
+						</p:column>
+
+						<p:column headerText="Operaciones" style="text-align:center;"
+							width="100">
+							<p:menuButton value="Menú">
+								<p:menuitem action="#{contactoMB.enviarCorreo}" ajax="false"
+									onclick="principal.target='_blank'"
+									icon="ui-icon-circle-zoomout" title="Ver" value="Mostrar" />
+							</p:menuButton>
+						</p:column>
+					</p:dataTable>
+
+				</p:tab>
+
+				<p:tab title="Festejados del Mes">
+
+					<p:panelGrid columns="3">
+						<h:panelGrid columns="3" cellpadding="2">
+							<p:outputLabel for="mes" value="Mes:" style="font-weight:bold;" />
+							<p:inputText id="mes" value="#{contactoMB.mes}" />
+							<p:message for="mes" />
+						</h:panelGrid>
+
+						<h:panelGrid columns="3" cellpadding="2">
+							<p:outputLabel for="dia" value="Día:" style="font-weight:bold;" />
+							<p:inputText id="dia" value="#{contactoMB.dia}" />
+							<p:message for="dia" />
+						</h:panelGrid>
+					</p:panelGrid>
+
+					<p:panelGrid columns="1" style="width:100%;">
+						<f:facet name="header">
+							<p:commandButton value="Consultar" icon="ui-icon-person"
+								actionListener="#{contactoMB.obtenerCumple}"
+								update=" tblfestejo :msg" title="Consultar Festejados"
+								style="float:right;" />
+						</f:facet>
+					</p:panelGrid>
+					<p:dataTable id="tblfestejo" widgetVar="tblfestejo"
+						value="#{contactoMB.listaCumple}" var="p"
+						tableStyle="table-layout: auto;" emptyMessage="Sin registros"
+						paginator="true" rows="10"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+						currentPageReportTemplate="(Mostrando: {startRecord} - {endRecord} de: {totalRecords}, Página: {currentPage}/{totalPages})"
+						rowsPerPageTemplate="5,10,20,50,100,500" rowIndexVar="indice"
+						selection="#{contactoMB.slcContactoCumple}" selectionMode="single"
+						rowKey="#{p.id}" filteredValue="#{contactoMB.listaFilterCumple}">
+
+						<f:facet name="header">Cumpleños de Contactos</f:facet>
+
+						<p:column headerText="Nombre" style="text-align:center;"
+							filterBy="#{p.nombre} #{p.apellido1} #{p.apellido2}"
+							filterMatchMode="contains">
+							<h:outputText value="#{p.nombre} #{p.apellido1} #{p.apellido2}" />
+						</p:column>
+
+						<p:column headerText="Fecha Nacimiento" style="text-align:center;"
+							sortBy="#{p.fechaNacimiento}" filterMatchMode="contains">
+							<h:outputText value="#{p.fechaNacimiento}">
+								<f:convertDateTime pattern="dd/MM/yyyy" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="Cargo" style="text-align:center;"
+							filterBy="#{p.catCargo.descripcion}" filterMatchMode="contains">
+							<h:outputText value="#{p.catCargo.descripcion}" />
+						</p:column>
+
+						<p:column headerText="Seccional" style="text-align:center;"
+							filterBy="#{p.catSeccional.descripcion}"
+							filterMatchMode="contains">
+							<h:outputText value="#{p.catSeccional.descripcion}" />
+						</p:column>
+
+						<p:column headerText="Agrupación" style="text-align:center;"
+							filterBy="#{p.catAgrupacion.descripcion}"
+							filterMatchMode="contains">
+							<h:outputText value="#{p.catAgrupacion.descripcion}" />
+						</p:column>
+
+						<p:column headerText="Telefono" style="text-align:center;"
+							filterBy="#{p.telefono}" filterMatchMode="contains">
+							<h:outputText value="#{p.telefono}" />
+						</p:column>
+
+						<p:column headerText="Correo" style="text-align:center;"
+							filterBy="#{p.correoElectronico}" filterMatchMode="contains">
+							<h:outputText value="#{p.correoElectronico}" />
+						</p:column>
+
+						<p:column headerText="Domicilio" style="text-align:center;"
+							filterBy="#{p.domicilio}" filterMatchMode="contains">
+							<h:outputText value="#{p.domicilio}" />
+						</p:column>
+
+						<p:column headerText="Operaciones" style="text-align:center;"
+							width="100">
+							<p:menuButton value="Menú">
+								<p:menuitem action="#{contactoMB.enviarCorreo}" ajax="false"
+									onclick="principal.target='_blank'"
+									icon="ui-icon-circle-zoomout" title="Ver" value="Mostrar" />
+							</p:menuButton>
+						</p:column>
+
+					</p:dataTable>
+				</p:tab>
+			</p:tabView>
+
+		</h:form> </section>
+
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="explode"
+			appendTo="@(body)">
+			<h:form>
+				<p:commandButton value="Si" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="No" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</h:form>
+		</p:confirmDialog>
+
+
+		<p:dialog header="Agregar Contacto" appendTo="@(body)" dynamic="true"
+			showEffect="scale" hideEffect="clip" width="700" modal="true"
+			widgetVar="dlgAddC" resizable="true" id="dlgAddC"
+			styleClass="autoWidthDialog">
+			<h:form id="formAgregarC">
+
+				<h:panelGrid columns="3" id="infoColC" style="width:100%;">
+
+					<!-- <h:panelGrid  columns="2" >
+					<p:outputLabel for="sec" value="Seccional:" style="font-weight:bold;" />
+					<p:selectOneMenu id="sec" value="#{contactoMB.contacto.catSeccional}" required="true" requiredMessage="Debe seleccionar una Unidad Administrativa."
+						appendTo="@(formAgregarC)">
+						<f:selectItem itemValue="#{null}" itemLabel="Seleccionar..." noSelectionOption="true" />
+						<f:selectItems value="#{contactoMB.secciones}" var="uA" itemLabel="#{uA.descripcion}" itemValue="#{uA.id}" />
+					</p:selectOneMenu>
+					<p:message for="sec" />
+				</h:panelGrid> -->
+
+					<p:outputLabel for="nombre" value="Nombre:"
+						style="font-weight:bold;" />
+					<p:inputText id="nombre" value="#{contactoMB.contacto.nombre}"
+						style="width:150px;margin-left:-4px;" required="true"
+						requiredMessage="Es necesario capturar el nombre." />
+					<p:message for="nombre" />
+
+					<p:outputLabel for="ape1" value="Primer Apellido"
+						style="font-weight:bold;" />
+					<p:inputText id="ape1" value="#{contactoMB.contacto.apellido1}"
+						style="width:150px;margin-left:-4px;" required="true"
+						requiredMessage="Es necesario capturar el primer apellido." />
+					<p:message for="ape1" />
+
+					<p:outputLabel for="ape2" value="Segundo Apellido:"
+						style="font-weight:bold;" />
+					<p:inputText id="ape2" value="#{contactoMB.contacto.apellido2}"
+						style="width:150px;margin-left:-4px;" />
+					<p:message for="ape2" />
+
+					<p:outputLabel for="fechaNa" value="Fecha Nacimiento:"
+						style="font-weight:bold;" />
+					<p:calendar id="fechaNa"
+						value="#{contactoMB.contacto.fechaNacimiento}" locale="es"
+						pattern="dd-MM-yyyy" maxdate="#{correspondencia.fechaHoy}"
+						required="true"
+						requiredMessage="Es necesario capturar una fecha de nacimiento." />
+					<p:message for="fechaNa" />
+
+					<p:outputLabel for="domici" value="Domicilio:"
+						style="font-weight:bold;" />
+					<p:inputText id="domici" value="#{contactoMB.contacto.domicilio}"
+						style="width:350px;margin-left:-4px;" required="true"
+						requiredMessage="Es necesario capturar un domicilio." />
+					<p:message for="domici" />
+
+					<p:outputLabel for="seccion" value="Seccional: "
+						style="font-weight:bold;" />
+					<p:autoComplete id="seccion"
+						value="#{contactoMB.contacto.catSeccional}"
+						completeMethod="#{contactoMB.completeSeccion}"
+						converter="#{catSeccionConverter}" queryDelay="2000" size="70"
+						var="ed" required="true"
+						requiredMessage="Debe seleccionar una Sección"
+						forceSelection="true" maxResults="50"
+						emptyMessage="Sin resultados" scrollHeight="200"
+						itemLabel="#{ed.descripcion}" itemValue="#{ed}">
+						<p:ajax event="itemSelect" />
+					</p:autoComplete>
+					<p:message for="seccion" />
+
+					<p:outputLabel for="telefono" value="Teléfono:"
+						style="font-weight:bold;" />
+					<p:inputMask id="telefono" value="#{contactoMB.contacto.telefono}"
+						style="width:100px;margin-left:-4px;" mask="(999) 999-9999"
+						required="true" />
+					<p:message for="telefono" />
+
+					<p:outputLabel for="correo" value="Correo:"
+						style="font-weight:bold;" />
+					<p:inputText id="correo"
+						value="#{contactoMB.contacto.correoElectronico}"
+						style="width:350px;margin-left:-4px;" required="true">
+					</p:inputText>
+					<p:message for="correo" />
+
+					<p:outputLabel for="cargo" value="Cargo: "
+						style="font-weight:bold;" />
+					<p:autoComplete id="cargo" value="#{contactoMB.contacto.catCargo}"
+						completeMethod="#{contactoMB.completeCargo}"
+						converter="#{catCargoConverter}" queryDelay="2000" size="70"
+						var="car" required="true"
+						requiredMessage="Debe seleccionar un Cargo" forceSelection="true"
+						maxResults="50" emptyMessage="Sin resultados" scrollHeight="200"
+						itemLabel="#{car.descripcion}" itemValue="#{car}">
+						<p:ajax event="itemSelect" />
+					</p:autoComplete>
+					<p:message for="cargo" />
+
+					<p:outputLabel for="agrupa" value="Agrupación: "
+						style="font-weight:bold;" />
+					<p:autoComplete id="agrupa"
+						value="#{contactoMB.contacto.catAgrupacion}"
+						completeMethod="#{contactoMB.completeAgrupacion}"
+						converter="#{catAgrupacionConverter}" queryDelay="2000" size="70"
+						var="agru" required="true"
+						requiredMessage="Debe seleccionar una Agrupación"
+						forceSelection="true" maxResults="50"
+						emptyMessage="Sin resultados" scrollHeight="200"
+						itemLabel="#{agru.descripcion}" itemValue="#{agru}">
+						<p:ajax event="itemSelect" />
+					</p:autoComplete>
+					<p:message for="agrupa" />
+
+					<p:outputLabel for="red1" value="red social:"
+						style="font-weight:bold;" />
+					<p:inputText id="red1" value="#{contactoMB.contacto.redSocial1}"
+						style="width:150px;margin-left:-4px;" />
+					<p:message for="red1" />
+
+					<p:outputLabel for="red2" value="red social:"
+						style="font-weight:bold;" />
+					<p:inputText id="red2" value="#{contactoMB.contacto.redSocial2}"
+						style="width:150px;margin-left:-4px;" />
+					<p:message for="red2" />
+
+					<p:outputLabel for="red3" value="red social:"
+						style="font-weight:bold;" />
+					<p:inputText id="red3" value="#{contactoMB.contacto.redSocial3}"
+						style="width:150px;margin-left:-4px;" />
+					<p:message for="red3" />
+
+					<p:outputLabel for="estatu" value="Estatus:"
+						style="font-weight:bold;" />
+					<p:selectBooleanCheckbox id="estatu"
+						value="#{contactoMB.contacto.estatus}" styleClass="checkAzul" />
+					<p:message for="estatu" />
+
+				</h:panelGrid>
+
+				<p:toolbar>
+
+					<f:facet name="right">
+
+						<p:commandButton value="Cancelar" icon="ui-icon-close"
+							onclick="PF('dlgAddC').hide()" process="@this" />
+
+						<p:commandButton value="Guardar" icon="ui-icon-check"
+							actionListener="#{contactoMB.guardar}"
+							update="@form :msg  :principal" oncomplete="PF('dlgAddC').hide()" />
+
+					</f:facet>
+
+				</p:toolbar>
+
+			</h:form>
+
+		</p:dialog>
+	</ui:define>
+</ui:composition>
+

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
+
+		<!-- Mapas de los pojos -->
+		
+		<mapping resource="/com/universidad/modelo/negocio/CatPerfil.hbm.xml" />
+		<mapping resource="/com/universidad/modelo/negocio/CatUsuario.hbm.xml" />
+		
+		<mapping resource="/com/universidad/modelo/negocio/CatDepto.hbm.xml" />
+		<mapping resource="/com/universidad/modelo/negocio/CatEmpresa.hbm.xml" />		
+		<mapping resource="/com/universidad/modelo/negocio/CatGrupo.hbm.xml" />
+		<mapping resource="/com/universidad/modelo/negocio/Empleado.hbm.xml" />
+		<mapping resource="/com/universidad/modelo/negocio/EmpleGrupo.hbm.xml" />
+		<!-- /Mapas de los pojos -->
+
+	</session-factory>
+</hibernate-configuration>

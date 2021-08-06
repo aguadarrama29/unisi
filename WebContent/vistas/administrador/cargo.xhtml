@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="/templates/template.xhtml">
+
+	<ui:define name="tituloPag">Catalogo de Cargos</ui:define>
+	<ui:define name="metadata">
+	</ui:define>
+
+	<ui:define name="content">
+		<section class="content-header">
+		<h1>
+			<small>Administración - Cargos</small>
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="#"><i class="fa fa-home"></i>Catalogo de Cargos</a></li>
+		</ol>
+		</section>
+		<p:messages autoUpdate="true" id="msgs" showSummary="true" showDetail="true" closable="true" />
+		<section class="content"> <h:form id="principal">
+
+			<p:panel style="width:100%;">
+
+				<p:panelGrid columns="3">
+
+					<f:facet name="header">Cargo:</f:facet>
+
+					<p:outputLabel for="des" value="Descripción:" style="font-weight:bold;" />
+					<p:inputText id="des" value="#{cargoMB.cargo.descripcion}" required="true" requiredMessage="Debe ingresar una Descripción." />
+					<p:message for="des" />
+					
+					<p:outputLabel for="estatu" value="Estatus:" style="font-weight:bold;" />
+					<p:selectBooleanCheckbox id="estatu" value="#{cargoMB.cargo.estatus}"  required="true" requiredMessage="Debe ingresar un Estatus" />
+					<p:message for="estatu" />
+					
+
+					<f:facet name="footer">
+
+						<p:commandButton value="Cancelar" actionListener="#{cargoMB.cancelar}" oncomplete="PF('tbl').clearFilters(); PF('tbl').filter();"
+							update="principal" style="float:right;" title="Cancelar Registro" />
+						<p:commandButton value="Guardar" actionListener="#{cargoMB.guardar}" update="principal" style="float:right;" title="Guardar Registro" />
+
+					</f:facet>
+
+				</p:panelGrid>
+
+				<br />
+
+				<p:contextMenu for="tbl">
+					<p:menuitem value="Editar" update="principal" icon="ui-icon-pencil" actionListener="#{cargoMB.editar}" process="tbl,@this" />
+					<p:menuitem value="Eliminar" update="principal" icon="ui-icon-close" actionListener="#{cargoMB.eliminar}" process="tbl,@this">
+						<p:confirm header="Confirmación" message="Eliminar Usuario?" icon="ui-icon-alert" />
+					</p:menuitem>
+				</p:contextMenu>
+
+				<p:dataTable id="tbl" widgetVar="tbl" value="#{cargoMB.lista}" var="p" tableStyle="table-layout: auto;" emptyMessage="Sin registros"
+					paginator="true" rows="10"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					currentPageReportTemplate="(Mostrando: {startRecord} - {endRecord} de: {totalRecords}, Página: {currentPage}/{totalPages})"
+					rowsPerPageTemplate="5,10,20,50,100,500" rowIndexVar="indice" selection="#{cargoMB.slcCargo}" selectionMode="single" rowKey="#{p.id}"
+					filteredValue="#{cargoMB.listaFilter}">
+
+					<f:facet name="header">Usuarios Registrados</f:facet>
+
+					<p:column headerText="Descripcion" style="text-align:center;" filterBy="#{p.descripcion}" filterMatchMode="contains">
+						<h:outputText value="#{p.descripcion}" />
+					</p:column>
+					
+
+					<p:column headerText="Estatus" style="text-align:center;" filterBy="#{p.estatus}" filterMatchMode="contains">
+						<h:outputText value="Activo" rendered="#{p.estatus}" />
+						<h:outputText value="Inactivo" rendered="#{!p.estatus}" />
+					</p:column>
+					
+
+				</p:dataTable>
+
+			</p:panel>
+
+		</h:form> </section>
+
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="explode" appendTo="@(body)">
+			<h:form>
+				<p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</h:form>
+		</p:confirmDialog>
+	</ui:define>
+</ui:composition>
+

@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html" xmlns:p="http://primefaces.org/ui">
+	<h:form id="formMenu">
+		<section class="sidebar"> <!-- Sidebar user panel -->
+		<div class="user-panel">
+			<div class="pull-center image" style="text-align: center;">
+				<p:graphicImage url="/templates/img/avatar3.png" styleClass="img-circle" />
+			</div>
+			<div class="pull-center info">
+				<p>
+					Hola,
+					<h:outputLabel id="nick" value="#{userSession.usuario.descripcion}" />
+				</p>
+			</div>
+		</div>
+
+		<ul class="sidebar-menu">
+			<li class="active"><a href="#{request.contextPath}/vistas/usuario/inicioAdmin.xhtml"> <i class="fa fa-home"></i> <span>Inicio</span>
+			</a></li>
+			<li class="treeview" ><a href="#"> <i class="fa fa-bar-chart-o"></i> <span>Administracion</span> <i class="fa fa-angle-left pull-right"></i>
+			</a>
+				<ul class="treeview-menu">
+					<li><a href="#{request.contextPath}/vistas/administrador/inventario.xhtml"><i class="fa fa-angle-double-right"></i> Inventario</a></li>
+					<li><a href="#{request.contextPath}/vistas/administrador/cliente.xhtml"><i class="fa fa-angle-double-right"></i> Cliente</a></li>
+					<li><a href="#{request.contextPath}/vistas/administrador/proveedor.xhtml"><i class="fa fa-angle-double-right"></i> Proveedor</a></li>
+					<li><a href="#{request.contextPath}/vistas/administrador/usuario.xhtml"><i class="fa fa-angle-double-right"></i> Usuario</a></li>
+				</ul></li>
+			<li class="treeview"><a href="#"> <i class="fa fa-table"></i> <span>Pedidos</span> <i class="fa fa-angle-left pull-right"></i>
+			</a>
+				<ul class="treeview-menu">
+					<li><a href="#{request.contextPath}/vistas/usuario/organizacion.xhtml"><i class="fa fa-angle-double-right"></i> Organizar</a></li>
+					<li><a href="#{request.contextPath}/vistas/usuario/listaPedidos.xhtml"><i class="fa fa-angle-double-right"></i> Pedidos</a></li>
+				</ul></li>
+			<li class="treeview"><a href="#"> <i class="fa fa-print"></i> <span>Reportes</span> <i class="fa fa-angle-left pull-right"></i>
+			</a>
+				<ul class="treeview-menu">
+				</ul></li>
+		</ul>
+		</section>
+	</h:form>
+</ui:composition>
+

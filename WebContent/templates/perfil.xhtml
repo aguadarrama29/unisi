@@ -1,0 +1,30 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core">
+
+	<h:form id="formPerfil">
+		<p:panelGrid columns="2" style="width: 100%">
+			<h:outputText value="Nombre: *" style="font-weight:bold;" />
+			<p:inputText id="nombre" value="#{usuarios.usuario.nombre}" required="true" requiredMessage="Necesita ingresar un Nombre" readonly="true"/>
+
+			<h:outputText value="Usuario: *" style="font-weight:bold;" />
+			<p:inputText id="usuario" value="#{usuarios.usuario.usuario}" required="true" requiredMessage="Necesita ingresar un Usuario" readonly="true"/>
+
+			<h:outputText value="Contraseña: *" style="font-weight:bold;" />
+			<p:password required="true" id="password" feedback="false" label="Contraseña 1" match="confirmar" value="#{usuarios.usuario.contrasenia}"
+				requiredMessage="Necesita ingresar una Contraseña" />
+
+			<h:outputText value="Confirmar Contraseña: *" style="font-weight:bold;" />
+			<p:password required="true" id="confirmar" feedback="false" label="Contraseña 2" value="#{usuarios.usuario.contrasenia}" />
+
+			<f:facet name="footer">
+				<p:commandButton value="Cancelar" actionListener="#{usuarios.resetForm}" process="@this" icon="ui-icon-close" style="margin-right:20px"
+					oncomplete="PF('dlgPerfil').hide();" />
+				<p:commandButton value="Guardar" actionListener="#{usuarios.updatePerfil}"
+					update=":formHeader:noMsg,:formHeader:noMsg2,:formHeader:rptMsg,:formMenu:nick" icon="ui-icon-disk" style="margin-right:20px"
+					oncomplete="PF('dlgPerfil').hide();" />
+			</f:facet>
+		</p:panelGrid>
+	</h:form>
+</ui:composition>

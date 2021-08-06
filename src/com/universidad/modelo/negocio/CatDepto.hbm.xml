@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 5/08/2021 06:13:16 PM by Hibernate Tools 4.0.1.Final -->
+<hibernate-mapping>
+    <class name="com.universidad.modelo.negocio.CatDepto" table="cat_depto" schema="public" lazy="false">
+        <id name="idDepto" type="int">
+            <column name="id_depto" />
+            <generator class="identity" />
+        </id>
+        <property name="nombre" type="string">
+            <column name="nombre" length="200" />
+        </property>
+        
+        <many-to-one class="com.universidad.modelo.negocio.CatEmpresa" name="catEmpresa" >
+            <column name="id_empresa" not-null="true"/>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

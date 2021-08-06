@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="/templates/template.xhtml"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<ui:define name="tituloPag">Registro</ui:define>
+	<ui:define name="metadata">
+	</ui:define>
+
+	<ui:define name="content">
+		<section class="content-header">
+		<h1>
+			<small>Administración - Empleados</small>
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="#"><i class="fa fa-home"></i>Registro</a></li>
+		</ol>
+		</section>
+		<p:messages autoUpdate="true" id="msg" showSummary="true"
+			showDetail="true" closable="true" />
+		<section class="content"> <h:form id="principal">
+		
+		<p:panelGrid columns="3">
+
+			<p:outputLabel for="tipo" value="Tipo Busqueda:" />
+	        <p:selectOneMenu id="tipo" value="#{empleadoMB.idTipo}"  required="false">
+	        	<p:ajax event="change" update="detalle"/>
+	        	<f:selectItem itemLabel="Seleccionar..."   noSelectionOption="true" />
+	            <f:selectItem itemLabel="Empresa" itemValue="1" />
+	            <f:selectItem itemLabel="Depto" itemValue="2" />
+	            <f:selectItem itemLabel="Nombre" itemValue="3" />
+	        </p:selectOneMenu>		
+	        <p:message for="tipo" />			
+					
+		</p:panelGrid>
+		
+		<p:panelGrid columns="3" id="detalle">
+			
+			<h:panelGrid rendered="#{empleadoMB.idTipo eq 1}" columns="4">
+				<p:outputLabel for="empre" value="Empresa:" style="font-weight:bold;" />
+				<p:selectOneMenu id="empre"  value="#{empleadoMB.idEmpre}" 
+					required="true" requiredMessage="Debe seleccionar una Empresa">  
+					<f:selectItem itemLabel="Seleccionar..."   noSelectionOption="true" />
+					<f:selectItems value="#{empleadoMB.listaEmpresas}" itemLabel="#{u.descripcion}" itemValue="#{u.idEmpresa}" var="u" />
+				</p:selectOneMenu>
+				<p:message for="empre" />
+				<p:commandButton value="Consultar"
+					actionListener="#{empleadoMB.cargaEmpleados}" icon="ui-icon-note"
+					update="@form :msg tbl" style="float:right !important;margin:2px 2px 3px 2px;"
+					title="Consultar" />		
+			</h:panelGrid>
+			
+			<h:panelGrid rendered="#{empleadoMB.idTipo eq 2}" columns="7">
+				<p:outputLabel for="empre2" value="Empresa:" style="font-weight:bold;" />
+				<p:selectOneMenu id="empre2"  value="#{empleadoMB.idEmpre}" 
+					required="true" requiredMessage="Debe seleccionar una Empresa">  
+					<p:ajax event="change" update="depto2" listener="#{empleadoMB.cargaDeptos}" />
+					<f:selectItem itemLabel="Seleccionar..."   noSelectionOption="true" />
+					<f:selectItems value="#{empleadoMB.listaEmpresas}" itemLabel="#{u.descripcion}" itemValue="#{u.idEmpresa}" var="u" />
+				</p:selectOneMenu>
+				<p:message for="empre2" />
+				
+				<p:outputLabel for="depto2" value="Departamentos:" style="font-weight:bold;" />
+				<p:selectOneMenu id="depto2"  value="#{empleadoMB.idDepto}" 
+					required="true" requiredMessage="Debe seleccionar un Departamento">  
+					<f:selectItem itemLabel="Seleccionar..."   noSelectionOption="true" />
+					<f:selectItems value="#{empleadoMB.listaDeptos}" itemLabel="#{ud.nombre}" itemValue="#{ud.idDepto}" var="ud" />
+				</p:selectOneMenu>
+				<p:message for="depto2" />
+				
+				<p:commandButton value="Consultar"
+					actionListener="#{empleadoMB.cargaEmpleados}" icon="ui-icon-note"
+					update="@form :msg tbl" style="float:right !important;margin:2px 2px 3px 2px;"
+					title="Consultar" />	
+			</h:panelGrid>
+			
+			<h:panelGrid columns="7" rendered="#{empleadoMB.idTipo eq 3}">
+				<p:outputLabel for="nombreFil" value="Nombre:"
+				style="font-weight:bold;" />
+				<p:inputText id="nombreFil" value="#{empleadoMB.palabra}"
+					required="true" requiredMessage="Debe ingresar letra a buscar." />
+				<p:message for="nombreFil" />
+			
+				<p:commandButton value="Consultar"
+					actionListener="#{empleadoMB.cargaEmpleados}" icon="ui-icon-note"
+					update="@form :msg tbl" style="float:right !important;margin:2px 2px 3px 2px;"
+					title="Consultar" />	
+				
+			</h:panelGrid>
+					
+			
+		</p:panelGrid>
+		
+		
+		<p:panel style="width:100%;">
+			<br />					
+			<p:panelGrid columns="1" style="width:100%;">
+				<f:facet name="header">
+					<p:commandButton value="Cancelar"
+						actionListener="#{empleadoMB.limpiar}" update="principal" icon="ui-icon-cancel"
+						style="float:right !important;margin:2px 2px 3px 2px;" title="Cancelar Registro"/>
+						
+					<p:commandButton value="Nuevo" icon="ui-icon-person" action="#{empleadoMB.agregar}"
+						oncomplete="PF('dlgAddC').show()"  process="@this" style="float:right !important;margin:2px 2px 3px 2px;"
+						title="Nuevo Pedido" global="false"/>
+
+					<p:commandButton value="Imprimir" onclick="form.target='_blank'" ajax="false" id="imprimi"
+						actionListener="#{empleadoMB.imprimirContactos}"  global="false" process="imprimi" rendered="true"
+						style="float:right !important;margin:2px 2px 3px 2px;" icon="ui-icon-print" iconPos="right" />
+
+				</f:facet>
+			</p:panelGrid>
+			
+			<p:dataTable id="tbl" widgetVar="tbl" value="#{empleadoMB.lista}" var="em" tableStyle="table-layout: auto;" emptyMessage="Sin registros"
+				paginator="true" rows="10" paginatorPosition="bottom"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				currentPageReportTemplate="(Mostrando: {startRecord} - {endRecord} de: {totalRecords}, Página: {currentPage}/{totalPages})"
+				rowsPerPageTemplate="5,10,20,50,100,500" rowIndexVar="indice"   rowKey="#{em.id}" filteredValue="#{empleadoMB.listaFilter}">
+				
+				
+				<p:column headerText="Operaciones" style="text-align:center;"
+					width="100">
+					<p:menuButton value="Menú">							
+						<p:menuitem actionListener="#{empleadoMB.editar(em)}" icon="ui-icon-pencil" title="Editar" 
+							value="Editar"  oncomplete="PF('dlgAddC').show()"
+							update="formCP"/>
+							
+						<p:menuitem action="#{empleadoMB.eliminarEmpleado(em)}" icon="ui-icon-close" title="Eliminar" 
+							value="Eliminar" update="tbl">
+							<p:confirm header="Confirmación" message="Eliminar cliente?"
+						icon="ui-icon-alert" />
+						</p:menuitem>
+						
+					</p:menuButton>
+				</p:column>
+				
+				<p:column headerText="Nombre" style="text-align:center;"
+					filterBy="#{em.nombre}" filterMatchMode="contains">
+					<h:outputText value="#{em.nombre}" />
+				</p:column>
+				
+				<p:column headerText="Apellido1" style="text-align:center;"
+					filterBy="#{em.ape1}" filterMatchMode="contains">
+					<h:outputText value="#{em.ape1}" />
+				</p:column>
+				
+				<p:column headerText="Apellido2" style="text-align:center;"
+					filterBy="#{em.ape2}" filterMatchMode="contains">
+					<h:outputText value="#{em.ape2}" />
+				</p:column>
+				
+				<p:column headerText="Fecha Nacimiento" style="text-align:center;"
+						sortBy="#{em.fecNacimiento}" filterMatchMode="contains">
+						<h:outputText value="#{em.fecNacimiento}">
+							<f:convertDateTime pattern="yyyy/MM/dd" />
+						</h:outputText>
+				</p:column>
+				
+				<p:column headerText="Genero" style="text-align:center;"
+					filterBy="#{em.genero}" filterMatchMode="contains">
+					<h:outputText value="Hombre" rendered="#{em.genero eq 1}"/>
+					<h:outputText value="Mujer" rendered="#{em.genero eq 2}"/>
+				</p:column>
+				
+				<p:column headerText="Fecha Ingreso" style="text-align:center;"
+						sortBy="#{em.fecIngreso}" filterMatchMode="contains">
+						<h:outputText value="#{em.fecIngreso}">
+							<f:convertDateTime pattern="yyyy/MM/dd" />
+						</h:outputText>
+				</p:column>
+				
+				<p:column headerText="Empresa" style="text-align:center;"
+					filterBy="#{em.catEmpresa.descripcion}" filterMatchMode="contains">
+					<h:outputText value="#{em.catEmpresa.descripcion}" />
+				</p:column>
+				
+				<p:column headerText="Depto" style="text-align:center;"
+					filterBy="#{em.catDepto.nombre}" filterMatchMode="contains">
+					<h:outputText value="#{em.catDepto.nombre}" />
+				</p:column>
+				
+
+				<p:column headerText="Teléfono" style="text-align:center;"
+					filterBy="#{em.telefono}" filterMatchMode="contains">
+					<h:outputText value="#{em.telefono}" />
+				</p:column>
+				
+				<p:column headerText="Celular" style="text-align:center;"
+					filterBy="#{em.celular}" filterMatchMode="contains">
+					<h:outputText value="#{em.celular}" />
+				</p:column>
+
+				<p:column headerText="Correo" style="text-align:center;"
+					filterBy="#{em.correo}" filterMatchMode="contains">
+					<h:outputText value="#{em.correo}" />
+				</p:column>
+
+				
+			</p:dataTable>
+
+		</p:panel>
+
+		</h:form> </section>
+		
+		
+		<p:dialog header="Agregar/Editar" appendTo="@(body)" dynamic="true" showEffect="scale" hideEffect="clip" 
+			modal="true" resizable="true" widgetVar="dlgAddC" id="dlgAddC" styleClass="autoWidthDialog">
+			<h:form id="formCP">
+
+				<p:panelGrid columns="1" style="width:100%;">
+					
+					<p:panel id="perso" header="Datos" style="width:100%;">
+						<h:panelGrid columns="9" cellpadding="3">
+							<p:outputLabel for="nombre" value="Nombre:"
+							style="font-weight:bold;" />
+							<p:inputText id="nombre" value="#{empleadoMB.empleado.nombre}"
+								required="true" requiredMessage="Debe ingresar un Nombre." />
+							<p:message for="nombre" />
+							
+							<p:outputLabel for="ap1" value="Ape 1:"
+							style="font-weight:bold;" />
+							<p:inputText id="ap1" value="#{empleadoMB.empleado.ape1}"
+								required="true" requiredMessage="Debe ingresar un Apellido 1" />
+							<p:message for="ap1" />
+							
+							<p:outputLabel for="ape2" value="Ape 2:"
+							style="font-weight:bold;" />
+							<p:inputText id="ape2" value="#{empleadoMB.empleado.ape2}"
+								required="true" requiredMessage="Debe ingresar un Apellido 2." />
+							<p:message for="ape2" />
+						</h:panelGrid>
+						
+						<h:panelGrid columns="9" cellpadding="3">
+							<p:outputLabel for="fechaE" value="Fecha Nacimiento" style="font-weight:bold;" />
+							<p:calendar id="fechaE"
+								value="#{empleadoMB.empleado.fecNacimiento}" locale="es"
+								pattern="dd-MM-yyyy" 
+								required="true" yearRange="c-90:c+60" navigator="true"
+								requiredMessage="Es necesario capturar una fecha de Nacimiento" >
+								
+							</p:calendar>
+							<p:message for="fechaE" />							
+							
+							<p:outputLabel for="fechaI" value="Fecha ingreso:" style="font-weight:bold;" />
+							<p:calendar id="fechaI"
+								value="#{empleadoMB.empleado.fecIngreso}" locale="es"
+								pattern="dd-MM-yyyy" 
+								required="true" yearRange="c-90:c+60" navigator="true"
+								requiredMessage="Es necesario capturar una fecha de Ingreso" >								
+							</p:calendar>
+							<p:message for="fechaI" />
+							
+							<p:outputLabel for="ge" value="Genero:*" />
+					        <p:selectOneMenu id="ge" value="#{empleadoMB.empleado.genero}"  required="true">
+					            <f:selectItem itemLabel="Mujer" itemValue="2" />
+					            <f:selectItem itemLabel="Hombre" itemValue="1" />
+					        </p:selectOneMenu>		
+					        <p:message for="ge" />
+					        
+						</h:panelGrid>
+						
+						<h:panelGrid columns="9" cellpadding="3">
+							<p:outputLabel for="correo" value="Correo:"
+								style="font-weight:bold;" />
+							<p:inputText id="correo" value="#{empleadoMB.empleado.correo}"
+								required="true" requiredMessage="Debe ingresar un Correo." />
+							<p:message for="correo" />
+							
+							<p:outputLabel for="telefono" value="Teléfono:"
+								style="font-weight:bold;" />
+							<p:inputMask id="telefono" value="#{empleadoMB.empleado.telefono}"
+								mask="9999999999" required="false" />
+							<p:message for="telefono" />
+							
+							<p:outputLabel for="cel" value="Celular:"
+								style="font-weight:bold;" />
+							<p:inputMask id="cel" value="#{empleadoMB.empleado.celular}"
+								mask="9999999999" required="false" />
+							<p:message for="cel" />																        
+					    </h:panelGrid>
+					    
+					    <h:panelGrid columns="6" cellpadding="3">
+					    	<p:outputLabel for="empre" value="Empresa:" style="font-weight:bold;" />
+							<p:selectOneMenu id="empre"  value="#{empleadoMB.idEmpre}" 
+								required="true" requiredMessage="Debe seleccionar una Empresa">  
+								<p:ajax event="change" update="depto" listener="#{empleadoMB.cargaDeptos}" />
+								<f:selectItem itemLabel="Seleccionar..."   noSelectionOption="true" />
+								<f:selectItems value="#{empleadoMB.listaEmpresas}" itemLabel="#{u.descripcion}" itemValue="#{u.idEmpresa}" var="u" />
+							</p:selectOneMenu>
+							<p:message for="empre" />
+							
+							<p:outputLabel for="depto" value="Departamentos:" style="font-weight:bold;" />
+							<p:selectOneMenu id="depto"  value="#{empleadoMB.empleado.catDepto}" 
+								required="true" requiredMessage="Debe seleccionar un Departamento" converter="#{deptoConverter}">  
+								<f:selectItem itemLabel="Seleccionar..."   noSelectionOption="true" />
+								<f:selectItems value="#{empleadoMB.listaDeptos}" itemLabel="#{ud.nombre}" itemValue="#{ud}" var="ud" />
+							</p:selectOneMenu>
+							<p:message for="depto" />
+					    </h:panelGrid>
+					    
+					</p:panel>					
+				</p:panelGrid>
+
+				<p:toolbar>
+					<f:facet name="right">
+						<p:commandButton value="Cancelar" icon="ui-icon-close"
+							onclick="PF('dlgAddC').hide()" process="@this"
+							actionListener="#{empleadoMB.limpiar()}" update="@form :msg  :principal"  />
+
+						<p:commandButton value="Guardar" icon="ui-icon-check"
+							actionListener="#{empleadoMB.guardar}" update="@form :msg :principal :principal:tbl" 
+							oncomplete="if (!args.validationFailed){PF('dlgAddC').hide()}"/>
+					</f:facet>
+				</p:toolbar>
+			</h:form>
+
+		</p:dialog>
+
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="explode"
+			appendTo="@(body)">
+			<h:form>
+				<p:commandButton value="Si" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="No" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</h:form>
+		</p:confirmDialog>
+	</ui:define>
+</ui:composition>
+

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="/templates/template.xhtml">
+
+	<ui:define name="tituloPag">Inicio Captura</ui:define>
+	<ui:define name="metadata">
+	</ui:define>
+
+	<ui:define name="content">
+		<section class="content-header">
+		<h1>
+			InicioUsu <small><h:outputLabel id="nick" value="#{userSession.usuario.catPerfil.descripcion}" /></small>
+		</h1>
+		</section>
+		
+		<p:messages autoUpdate="true" id="msgs" showSummary="true" showDetail="true" closable="true" />
+		
+		<h:form id="principal">
+			<p:panelGrid id="panelPrincipal" columns="2" style="width:100%;">
+				
+				<h:panelGrid id="panelAdmin" columns="2" rendered="#{userSession.usuario.catPerfil.id eq '2'}">
+					<p:outputLabel for="date" value="Date Admin: " />
+        			<p:inputMask id="date" value="1" mask="99/99/9999"/>
+				</h:panelGrid>
+				
+				
+				<h:panelGrid id="panelUsuario" columns="2" rendered="#{userSession.usuario.catPerfil.id eq '1'}">
+					<p:outputLabel for="phoneWithExt" value="Dato usuario" />
+       				 <p:inputMask id="phoneWithExt" value="2" mask="(999) 999-9999? x99999"/>
+				</h:panelGrid>
+			</p:panelGrid>
+		</h:form>
+		
+		
+	</ui:define>
+</ui:composition>
+

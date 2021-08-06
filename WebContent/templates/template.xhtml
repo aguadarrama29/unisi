@@ -1,0 +1,47 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core" template="../../templates/template.xhtml">
+<h:head>
+	<meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport' />
+	<title>Universidad-<ui:insert name="tituloPag"></ui:insert></title>
+	<link href="#{request.contextPath}/templates/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<link href="#{request.contextPath}/templates/css/font-awesome.min.css" rel="stylesheet" type="text/css" />
+	<link href="#{request.contextPath}/templates/css/ionicons.min.css" rel="stylesheet" type="text/css" />
+	<link href="#{request.contextPath}/templates/css/AdminLTE.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" href="#{request.contextPath}/templates/plugins/iCheck/flat/blue.css" />
+	<link rel="stylesheet" href="#{request.contextPath}/templates/plugins/morris/morris.css" />
+	<link rel="stylesheet" href="#{request.contextPath}/templates/plugins/jvectormap/jquery-jvectormap-1.2.2.css" />
+	<link rel="stylesheet" href="#{request.contextPath}/templates/plugins/datepicker/datepicker3.css" />
+	<link rel="stylesheet" href="#{request.contextPath}/templates/plugins/daterangepicker/daterangepicker-bs3.css" />
+	<link rel="stylesheet" href="#{request.contextPath}/templates/plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css" />
+	<script src="#{request.contextPath}/templates/plugins/slimScroll/jquery.slimscroll.min.js"></script>
+	<script src="#{request.contextPath}/templates/plugins/fastclick/fastclick.min.js"></script>
+	<h:outputStylesheet name="css/default.css" />
+	<link rel="shortcut icon" type="image/x-icon" href="#{resource['images/favicon.ico']}" />
+</h:head>
+
+<h:body onload="PF('estatusDialog').hide();" class="skin-blue fixed">
+
+	<p:ajaxStatus onstart="PF('estatusDialog').show();" onsuccess="PF('estatusDialog').hide();" />
+	<p:growl id="growl" showDetail="true" autoUpdate="true" life="6000" showSummary="true" />
+
+	<ui:include src="header.xhtml" />
+
+	<div class="wrapper row-offcanvas row-offcanvas-left">
+		<aside class="left-side sidebar-offcanvas"> <ui:include src="menus/menuUsuario.xhtml" /> </aside>
+
+		<aside class="right-side"> <ui:insert name="content" /> </aside>
+	</div>
+
+	<p:dialog widgetVar="estatusDialog" modal="true" draggable="false" closable="false" resizable="false" showHeader="false">
+		<p:graphicImage value="#{resource['images/ajax-loader.gif']}" />
+	</p:dialog>
+
+	<h:outputScript library="js" name="calendar_es.js" />
+	<h:outputScript library="js" name="bootstrap.min.js" />
+	<h:outputScript library="js" name="app.js" />
+	<h:outputScript library="js" name="funciones.js" />
+
+</h:body>
+</html>

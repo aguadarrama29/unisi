@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 5/08/2021 06:13:16 PM by Hibernate Tools 4.0.1.Final -->
+<hibernate-mapping>
+    <class name="com.universidad.modelo.negocio.EmpleGrupo" table="emple_grupo" schema="public" lazy="false">
+        <composite-id name="id" class="com.universidad.modelo.negocio.EmpleGrupoId">
+            <key-property name="idEmpleado" type="int">
+                <column name="id_empleado" />
+            </key-property>
+            <key-property name="idGrupo" type="int">
+                <column name="id_grupo" />
+            </key-property>
+        </composite-id>
+        <property name="comentario" type="string">
+            <column name="comentario" />
+        </property>
+    </class>
+</hibernate-mapping>

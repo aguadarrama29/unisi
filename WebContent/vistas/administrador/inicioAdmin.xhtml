@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml" xmlns:ui="http://java.sun.com/jsf/facelets" xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:f="http://java.sun.com/jsf/core" xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="/templates/templateAd.xhtml">
+
+	<ui:define name="tituloPag">Inicio Administrativo</ui:define>
+	<ui:define name="metadata">
+	</ui:define>
+
+	<ui:define name="content">
+		<section class="content-header">
+		<h1>
+			Inicio <small>Admin222</small>
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="#"><i class="fa fa-home"></i> Inicio</a></li>
+		</ol>
+		</section>
+		<p:messages autoUpdate="true" id="msgs" showSummary="true" showDetail="true" closable="true" />
+		<section class="content">
+		<div class="row">
+			<div class="col-lg-3 col-xs-6">
+				<div class="small-box bg-aqua">
+					<div class="inner">
+						<h3>
+							<h:outputText id="prestamos" value="10" />
+						</h3>
+						<p>Universidad</p>
+					</div>
+					<div class="icon">
+						<i class="ion ion-android-data"></i>
+					</div>
+					<a href="#" class="small-box-footer"> Más Información <i class="fa fa-arrow-circle-right"></i>
+					</a>
+				</div>
+			</div>
+			<!-- ./col -->
+			<div class="col-lg-3 col-xs-6">
+				<!-- small box -->
+				<div class="small-box bg-red">
+					<div class="inner">
+						<h3>
+							<h:outputText id="adeudos" value="2" />
+						</h3>
+						<p>Organizaciones</p>
+					</div>
+					<div class="icon">
+						<i class="ion ion-alert"></i>
+					</div>
+					<a href="#" class="small-box-footer"> Más Información <i class="fa fa-arrow-circle-right"></i>
+					</a>
+				</div>
+			</div>
+			<div class="col-lg-3 col-xs-6">
+				<!-- small box -->
+				<div class="small-box bg-green">
+					<div class="inner">
+						<h3>
+							<h:outputText id="peliculas" value="12" />
+						</h3>
+						<p>Pedidos Registrados</p>
+					</div>
+					<div class="icon">
+						<i class="ion ion-ios7-film"></i>
+					</div>
+					<a href="#" class="small-box-footer"> Más Información <i class="fa fa-arrow-circle-right"></i>
+					</a>
+				</div>
+			</div>
+			<!-- ./col -->
+			<div class="col-lg-3 col-xs-6">
+				<!-- small box -->
+				<div class="small-box bg-yellow">
+					<div class="inner">
+						<h3>
+							<h:outputText id="usuarios" value="2" />
+						</h3>
+						<p>Usuarios Registrados</p>
+					</div>
+					<div class="icon">
+						<i class="ion ion-person-add"></i>
+					</div>
+					<a href="#" class="small-box-footer"> Más Información <i class="fa fa-arrow-circle-right"></i>
+					</a>
+				</div>
+			</div>
+
+			<div class="col-md-4">
+				<!-- Default box -->
+				<div class="box">
+					<div class="box-header">
+						<h3 class="box-title">Universidad</h3>
+						<div class="box-tools pull-right">
+							<button class="btn btn-default btn-sm" data-widget="collapse" data-toggle="tooltip" title="Colapsar">
+								<i class="fa fa-minus"></i>
+							</button>
+						</div>
+					</div>
+					<div class="box-body">
+						Box class:
+						<code>.box</code>
+						<p>amber, microbrewery abbey hydrometer, brewpub ale lauter tun saccharification oxidized barrel. berliner weisse wort chiller adjunct
+							hydrometer alcohol aau! sour/acidic sour/acidic chocolate malt ipa ipa hydrometer.</p>
+					</div>
+					<!-- /.box-body -->
+					<div class="box-footer">
+						<code>.box-footer</code>
+					</div>
+					<!-- /.box-footer-->
+				</div>
+				<!-- /.box -->
+			</div>
+			<!-- /.col -->
+
+			<div class="col-md-4">
+				<!-- Default box -->
+				<div class="box">
+					<div class="box-header">
+						<h3 class="box-title">Universidad</h3>
+						<div class="box-tools pull-right">
+							<button class="btn btn-default btn-sm" data-widget="collapse" data-toggle="tooltip" title="Colapsar">
+								<i class="fa fa-minus"></i>
+							</button>
+						</div>
+					</div>
+					<div class="box-body">
+						Box class:
+						<code>.box</code>
+						<p>amber, microbrewery abbey hydrometer, brewpub ale lauter tun saccharification oxidized barrel. berliner weisse wort chiller adjunct
+							hydrometer alcohol aau! sour/acidic sour/acidic chocolate malt ipa ipa hydrometer.</p>
+					</div>
+					<!-- /.box-body -->
+					<div class="box-footer">
+						<code>.box-footer</code>
+					</div>
+					<!-- /.box-footer-->
+				</div>
+				<!-- /.box -->
+			</div>
+			<!-- /.col -->
+
+			<div class="col-md-4">
+				<!-- Default box -->
+				<div class="box">
+					<div class="box-header">
+						<h3 class="box-title">Pedidos</h3>
+						<div class="box-tools pull-right">
+							<button class="btn btn-default btn-sm" data-widget="collapse" data-toggle="tooltip" title="Colapsar">
+								<i class="fa fa-minus"></i>
+							</button>
+						</div>
+					</div>
+					<div class="box-body">
+						Box class:
+						<code>.box</code>
+						<p>amber, microbrewery abbey hydrometer, brewpub ale lauter tun saccharification oxidized barrel. berliner weisse wort chiller adjunct
+							hydrometer alcohol aau! sour/acidic sour/acidic chocolate malt ipa ipa hydrometer.</p>
+					</div>
+					<!-- /.box-body -->
+					<div class="box-footer">
+						<code>.box-footer</code>
+					</div>
+					<!-- /.box-footer-->
+				</div>
+				<!-- /.box -->
+			</div>
+			<!-- /.col -->
+			<div class="col-xs-12">
+				<div class="box box-primary">					
+				</div>
+			</div>
+		</div>
+		</section>
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="explode" appendTo="@(body)">
+			<h:form>
+				<p:commandButton value="Si" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</h:form>
+		</p:confirmDialog>
+	</ui:define>
+</ui:composition>
+

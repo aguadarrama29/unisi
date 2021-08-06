@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+	template="/templates/template.xhtml"
+	xmlns:pe="http://primefaces.org/ui/extensions">
+
+	<ui:define name="tituloPag">Horarios</ui:define>
+	<ui:define name="metadata">
+	</ui:define>
+
+	<ui:define name="content">
+		<section class="content-header">
+		<h1>
+			<small>Administración - Empleados</small>
+		</h1>
+		<ol class="breadcrumb">
+			<li><a href="#"><i class="fa fa-home"></i>Horarios</a></li>
+		</ol>
+		</section>
+		<p:messages autoUpdate="true" id="msg" showSummary="true"
+			showDetail="true" closable="true" />
+		<section class="content"> <h:form id="principal">
+		
+		<p:panel style="width:100%;">
+			<br />					
+			<p:panelGrid columns="1" style="width:100%;">
+				<f:facet name="header">
+					
+						
+					<p:commandButton value="Nuevo" icon="ui-icon-person" 
+						oncomplete="PF('dlgAddC').show()"  process="@this" style="float:right !important;margin:2px 2px 3px 2px;"
+						title="Nuevo Horario" global="false"/>
+				</f:facet>
+			</p:panelGrid>
+			
+			<p:dataTable id="tbl" widgetVar="tbl" value="#{empleadoMB.listaDeptos}" var="em" tableStyle="table-layout: auto;" emptyMessage="Sin registros"
+				paginator="true" rows="10" paginatorPosition="bottom"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				currentPageReportTemplate="(Mostrando: {startRecord} - {endRecord} de: {totalRecords}, Página: {currentPage}/{totalPages})"
+				rowsPerPageTemplate="5,10,20,50,100,500" rowIndexVar="indice"   rowKey="#{em.id}" filteredValue="#{empleadoMB.listaFilter}">
+				
+				
+				<p:column headerText="Operaciones" style="text-align:center;"
+					width="100">
+					<p:menuButton value="Menú">							
+						<p:menuitem  icon="ui-icon-pencil" title="Editar" 
+							value="Editar"  oncomplete="PF('dlgAddC').show()"
+							update="formCP"/>
+							
+						<p:menuitem  icon="ui-icon-close" title="Eliminar" 
+							value="Eliminar" update="tbl">
+							<p:confirm header="Confirmación" message="Eliminar cliente?"
+						icon="ui-icon-alert" />
+						</p:menuitem>
+						
+					</p:menuButton>
+				</p:column>
+				
+				<p:column headerText="Nombre" style="text-align:center;"
+					filterBy="#{em.nombre}" filterMatchMode="contains">
+					<h:outputText value="#{em.nombre}" />
+				</p:column>
+				
+				<p:column headerText="Hora entrada" style="text-align:center;">
+					<h:outputText />
+				</p:column>
+				
+				<p:column headerText="Hora salida" style="text-align:center;">
+					<h:outputText  />
+				</p:column>
+				
+				
+				
+			</p:dataTable>
+
+		</p:panel>
+
+		</h:form> </section>
+		
+		
+		<p:dialog header="Agregar/Editar" appendTo="@(body)" dynamic="true" showEffect="scale" hideEffect="clip" 
+			modal="true" resizable="true" widgetVar="dlgAddC" id="dlgAddC" styleClass="autoWidthDialog">
+			<h:form id="formCP">
+
+				<p:panelGrid columns="1" style="width:100%;">
+					
+					<p:panel id="perso" header="Datos" style="width:100%;">
+						<h:panelGrid columns="9" cellpadding="3">
+							<p:outputLabel for="nombre" value="Nombre:"
+							style="font-weight:bold;" />
+							<p:inputText id="nombre" value="#{empleadoMB.empleado.nombre}"
+								required="true" requiredMessage="Debe ingresar un Nombre." />
+							<p:message for="nombre" />
+							
+							<p:outputLabel for="he" value="Hora entrada:"
+							style="font-weight:bold;" />
+							<p:inputText id="he" 
+								required="true" requiredMessage="Debe ingresar un Apellido 1" />
+							<p:message for="he" />
+							
+							<p:outputLabel for="hs" value="Hora salida:"
+							style="font-weight:bold;" />
+							<p:inputText id="hs" 
+								required="true" requiredMessage="Debe ingresar un Apellido 2." />
+							<p:message for="hs" />
+						</h:panelGrid>
+					    
+					</p:panel>					
+				</p:panelGrid>
+
+				<p:toolbar>
+					<f:facet name="right">
+						<p:commandButton value="Cancelar" icon="ui-icon-close"
+							onclick="PF('dlgAddC').hide()" process="@this"
+							  />
+
+						<p:commandButton value="Guardar" icon="ui-icon-check"
+							 
+							oncomplete="if (!args.validationFailed){PF('dlgAddC').hide()}"/>
+					</f:facet>
+				</p:toolbar>
+			</h:form>
+
+		</p:dialog>
+
+		<p:confirmDialog global="true" showEffect="fade" hideEffect="explode"
+			appendTo="@(body)">
+			<h:form>
+				<p:commandButton value="Si" type="button"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+				<p:commandButton value="No" type="button"
+					styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+			</h:form>
+		</p:confirmDialog>
+	</ui:define>
+</ui:composition>
+

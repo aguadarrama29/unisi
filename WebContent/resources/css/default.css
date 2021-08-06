@@ -1,0 +1,24 @@
+.ui-widget {
+	font-size: 90% !important;
+}
+
+.ui-growl {
+	margin-top: 6%;
+}
+
+.login {
+	width: 280px;
+	height: 200px;
+	position: absolute;
+	left: 39%;
+	top: 50%;
+	margin: -150px 0 0 -150px;
+}
+
+.panelGridNoBorderTd td {
+	border: none !important;
+}
+
+.alignTop td {
+	vertical-align: top;
+}
